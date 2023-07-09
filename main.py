@@ -2,40 +2,33 @@ import inspect
 import importlib
 import importlib.util
 
-
-def first_function():
-    print("First function called!")
-
-
-def second_function():
-    print("Second function called!")
+from package_1 import function as function_1
+from package_2 import function as function_2
 
 
-def create_py_file():
-    choice = input("Type 1 or 2 ")
-
+def create_py_file(choice):
     with open("test.py", 'w') as f:
         if choice == "1":
-            function = first_function
+            function = function_1
         else:
-            function = second_function
+            function = function_2
 
         content = inspect.getsource(function)
         f.write(content)
-
-    with open("test.py", 'r') as f:
-        print(f.read())
 
 
 def run_py_file():
     spec = importlib.util.spec_from_file_location("test", "./test.py")
     test_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(test_module)
+    return test_module
 
 
 def main():
-    create_py_file()
-    run_py_file()
+    choice = input("Type 1 or 2\n")
+    create_py_file(choice)
+    test_module = run_py_file()
+    test_module.function()
 
 
 if __name__ == '__main__':
