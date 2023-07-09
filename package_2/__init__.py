@@ -1,2 +1,2 @@
-def function():
+def main():
     print("Second function called!")

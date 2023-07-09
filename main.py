@@ -2,11 +2,11 @@ import inspect
 import importlib
 import importlib.util
 
-from package_1 import function as function_1
-from package_2 import function as function_2
+from package_1 import main as function_1
+from package_2 import main as function_2
 
 
-def create_py_file(choice):
+def compose_module(choice):
     with open("test.py", 'w') as f:
         if choice == "1":
             function = function_1
@@ -17,7 +17,7 @@ def create_py_file(choice):
         f.write(content)
 
 
-def run_py_file():
+def get_py_module():
     spec = importlib.util.spec_from_file_location("test", "./test.py")
     test_module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(test_module)
@@ -26,9 +26,9 @@ def run_py_file():
 
 def main():
     choice = input("Type 1 or 2\n")
-    create_py_file(choice)
-    test_module = run_py_file()
-    test_module.function()
+    compose_module(choice)
+    module = get_py_module()
+    module.main()
 
 
 if __name__ == '__main__':
